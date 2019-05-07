@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Toggl;
 using Toggl.Interfaces;
@@ -70,8 +71,8 @@ namespace Toggl2Toggl
                     Description = entry.Description,
                     Duration = duration,
                     ProjectId = found.ProjectId,
-                    Start = DateTime.Parse(entry.Start).ToString("yyyy-MM-ddTHH:mm:sszzz"),
-                    Stop = DateTime.Parse(entry.Start).AddSeconds(duration).ToString("yyyy-MM-ddTHH:mm:sszzz")
+                    Start = DateTime.ParseExact(entry.Start, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy-MM-ddTHH:mm:sszzz"),
+                    Stop = DateTime.ParseExact(entry.Start, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).AddSeconds(duration).ToString("yyyy-MM-ddTHH:mm:sszzz")
                 };
 
                 Print(entry);

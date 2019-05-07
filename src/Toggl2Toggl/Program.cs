@@ -9,7 +9,7 @@ namespace Toggl2Toggl
         {
 
             var toggleApiKey = "";
-            var startDate = DateTime.UtcNow.AddDays(-22).StartOfDay();
+            var startDate = DateTime.UtcNow.AddMonths(-1).StartOfDay();
             var endDate = DateTime.UtcNow.EndOfDay();
             var orgUrl = new Uri("https://marketvision.visualstudio.com");
             var adoPersonalAccessToken = "";
@@ -23,6 +23,8 @@ namespace Toggl2Toggl
 
             toggl2ToggleIntegration.Show(startDate, endDate, "Elders workspace");
             //toggl2ToggleIntegration.Sync(startDate, endDate, "Elders workspace", "MarketVision's workspace");
+
+            Console.ReadKey();
         }
     }
 }
