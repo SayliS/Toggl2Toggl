@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi;
 using Microsoft.TeamFoundation.WorkItemTracking.WebApi.Models;
 using Microsoft.VisualStudio.Services.Common;
@@ -11,9 +12,11 @@ namespace AdoIntegration
         readonly Uri organizationUrl;
         readonly string personalAccessToken;
         readonly VssConnection connection;
+        readonly IMemoryCache cache;
 
         public AdoIntegrationClient(Uri organizationUrl, string personalAccessToken)
         {
+            this.cache = new MemoryCache(new MemoryCacheOptions());
             this.organizationUrl = organizationUrl;
             this.personalAccessToken = personalAccessToken;
             this.connection = new VssConnection(organizationUrl, new VssBasicCredential(string.Empty, personalAccessToken));
@@ -24,7 +27,12 @@ namespace AdoIntegration
             adoTicket = default(AdoTicketModel);
             WorkItemTrackingHttpClient witClient = connection.GetClient<WorkItemTrackingHttpClient>();
 
-            WorkItem workitem = witClient.GetWorkItemAsync(byAdoTicketId, expand: WorkItemExpand.All).Result;
+            if (cache.TryGetValue(byAdoTicketId, out WorkItem workitem) == false)
+            {
+
+                workitem = witClient.GetWorkItemAsync(byAdoTicketId, expand: WorkItemExpand.All).Result;
+                cache.Set(byAdoTicketId, workitem);
+            }
 
             workitem.Fields.TryGetValue("Custom.Client", out string clientName);
 
