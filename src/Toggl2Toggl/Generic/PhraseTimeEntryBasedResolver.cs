@@ -2,11 +2,11 @@
 
 namespace Toggl2Toggl
 {
-    public class GenericTimeEntryBasedResolver<T> : ITimeEntryBasedResolver<T>
+    public class PhraseTimeEntryBasedResolver<T> : ITimeEntryBasedResolver<T>
     {
         readonly IPhraseMapping<T> phraseMapping;
 
-        public GenericTimeEntryBasedResolver(IPhraseMapping<T> phraseMapping, int weight)
+        public PhraseTimeEntryBasedResolver(IPhraseMapping<T> phraseMapping, int weight)
         {
             this.phraseMapping = phraseMapping;
             Weight = weight;

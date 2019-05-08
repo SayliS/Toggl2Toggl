@@ -4,7 +4,7 @@ using Toggl;
 
 namespace Toggl2Toggl
 {
-    public abstract class AdoTimeEntryBasedResolver : ITimeEntryBasedResolver<IClient>, ITimeEntryBasedResolver<IProject>
+    public abstract class AdoTimeEntryBasedResolver<T> : ITimeEntryBasedResolver<T>
     {
         protected readonly AdoIntegrationClient adoIntegrationClient;
 
@@ -16,9 +16,7 @@ namespace Toggl2Toggl
 
         public int Weight { get; private set; }
 
-        public abstract bool TryResolve(TimeEntry entry, out IClient client);
-
-        public abstract bool TryResolve(TimeEntry entry, out IProject project);
+        public abstract bool TryResolve(TimeEntry entry, out T result);
 
         protected bool TryExtractAdoTicketNumber(TimeEntry entry, out int adoId)
         {

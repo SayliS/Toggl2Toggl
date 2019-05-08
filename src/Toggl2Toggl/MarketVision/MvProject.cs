@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace Toggl2Toggl
 {
-    public class MarketVisionProject : IProject
+    public class MvProject : IProject
     {
-        static Dictionary<string, Func<MarketVisionProject>> MarketVisionProjects = new Dictionary<string, Func<MarketVisionProject>>();
+        static Dictionary<string, Func<MvProject>> MarketVisionProjects = new Dictionary<string, Func<MvProject>>();
 
-        MarketVisionProject() { }
+        MvProject() { }
 
-        MarketVisionProject(string value)
+        MvProject(string value)
         {
             if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(nameof(value));
 
@@ -18,15 +18,15 @@ namespace Toggl2Toggl
         }
         public string ProjectName { get; private set; }
 
-        public static MarketVisionProject NoProject = new MarketVisionProject("No Project");
-        public static MarketVisionProject NewGenProject = new MarketVisionProject("NewGen Projects");
-        public static MarketVisionProject NewGenSupport = new MarketVisionProject("NewGen Support");
-        public static MarketVisionProject Arbor = new MarketVisionProject("Arbor");
-        public static MarketVisionProject DevOps = new MarketVisionProject("DevOps");
-        public static MarketVisionProject Vapt = new MarketVisionProject("Vapt");
-        public static MarketVisionProject LinkPro = new MarketVisionProject("LinkPro");
+        public static MvProject NoProject = new MvProject("No Project");
+        public static MvProject NewGenProject = new MvProject("NewGen Projects");
+        public static MvProject NewGenSupport = new MvProject("NewGen Support");
+        public static MvProject Arbor = new MvProject("Arbor");
+        public static MvProject DevOps = new MvProject("DevOps");
+        public static MvProject Vapt = new MvProject("Vapt");
+        public static MvProject LinkPro = new MvProject("LinkPro");
 
-        public static implicit operator string(MarketVisionProject current)
+        public static implicit operator string(MvProject current)
         {
             return current.ProjectName;
         }
@@ -36,7 +36,7 @@ namespace Toggl2Toggl
             return ProjectName;
         }
 
-        public static MarketVisionProject Parse(string client)
+        public static MvProject Parse(string client)
         {
             client = client?.ToLower();
             SetupClinets();
@@ -44,7 +44,7 @@ namespace Toggl2Toggl
             if (string.IsNullOrWhiteSpace(client) == true)
                 client = string.Empty;
 
-            Func<MarketVisionProject> foundClinet = null;
+            Func<MvProject> foundClinet = null;
 
             if (MarketVisionProjects.TryGetValue(client, out foundClinet))
             {
@@ -71,8 +71,8 @@ namespace Toggl2Toggl
         {
             if (MarketVisionProjects.Count == 0)
             {
-                var properties = typeof(MarketVisionProject).GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static).Where(x => x.FieldType == typeof(MarketVisionProject));
-                var projects = properties.Select(x => x.GetValue(null) as MarketVisionProject).Where(x => x != NoProject).ToList();
+                var properties = typeof(MvProject).GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static).Where(x => x.FieldType == typeof(MvProject));
+                var projects = properties.Select(x => x.GetValue(null) as MvProject).Where(x => x != NoProject).ToList();
 
                 foreach (var project in projects)
                 {
