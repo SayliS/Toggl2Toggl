@@ -24,7 +24,7 @@ namespace Toggl.Interfaces
         /// <param name="obj"></param>
         /// <returns></returns>
         List<TimeEntry> List(QueryObjects.TimeEntryParams obj);
-        
+
         /// <summary>
         /// 
         /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/time_entries.md#get-running-time-entry
@@ -64,5 +64,7 @@ namespace Toggl.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         bool Delete(long id);
+
+        bool Delete(long[] ids);
     }
 }

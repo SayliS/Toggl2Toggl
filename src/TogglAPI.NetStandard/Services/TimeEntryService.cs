@@ -6,9 +6,9 @@ using Toggl.Interfaces;
 
 namespace Toggl.Services
 {
-	using System.Net;
+    using System.Net;
 
-	public class TimeEntryService : ITimeEntryService
+    public class TimeEntryService : ITimeEntryService
     {
         private IApiService ToggleSrv { get; set; }
 
@@ -17,7 +17,7 @@ namespace Toggl.Services
         {
 
         }
-        
+
         public TimeEntryService(IApiService srv)
         {
             ToggleSrv = srv;
@@ -49,7 +49,7 @@ namespace Toggl.Services
             var entries = ToggleSrv.Get(ApiRoutes.TimeEntry.TimeEntriesUrl, obj.GetParameters())
                         .GetData<List<TimeEntry>>()
                         .AsQueryable();
-            
+
             if (obj.ProjectId.HasValue)
                 entries = entries.Where(w => w.ProjectId == obj.ProjectId);
 
@@ -70,7 +70,7 @@ namespace Toggl.Services
             return timeEntry;
         }
 
-	    /// <summary>
+        /// <summary>
         /// 
         /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/time_entries.md#get-time-entry-details
         /// </summary>
@@ -79,12 +79,12 @@ namespace Toggl.Services
         public TimeEntry Get(long id)
         {
             var url = string.Format(ApiRoutes.TimeEntry.TimeEntryUrl, id);
-            
+
             var timeEntry = ToggleSrv.Get(url).GetData<TimeEntry>();
 
             return timeEntry;
         }
-        
+
         /// <summary>
         /// 
         /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/time_entries.md#create-a-time-entry
@@ -100,33 +100,33 @@ namespace Toggl.Services
             return timeEntry;
         }
 
-		/// <summary>
-		/// Start a TimeEntry
-		/// </summary>
-		/// <param name="obj">A TimeEntry object.</param>
-		/// <returns>The runnig TimeEntry.</returns>
-		public TimeEntry Start(TimeEntry obj)
-		{
+        /// <summary>
+        /// Start a TimeEntry
+        /// </summary>
+        /// <param name="obj">A TimeEntry object.</param>
+        /// <returns>The runnig TimeEntry.</returns>
+        public TimeEntry Start(TimeEntry obj)
+        {
             var url = ApiRoutes.TimeEntry.TimeEntryStartUrl;
 
             var timeEntry = ToggleSrv.Post(url, obj.ToJson()).GetData<TimeEntry>();
 
             return timeEntry;
-		}
+        }
 
-		/// <summary>
-		/// Stop a TimeEntry
-		/// </summary>
-		/// <param name="obj">A TimeEntry object.</param>
-		/// <returns>The stopped TimeEntry.</returns>
-		public TimeEntry Stop(TimeEntry obj)
-		{
+        /// <summary>
+        /// Stop a TimeEntry
+        /// </summary>
+        /// <param name="obj">A TimeEntry object.</param>
+        /// <returns>The stopped TimeEntry.</returns>
+        public TimeEntry Stop(TimeEntry obj)
+        {
             var url = string.Format(ApiRoutes.TimeEntry.TimeEntryStopUrl, obj.Id);
 
             var timeEntry = ToggleSrv.Put(url, obj.ToJson()).GetData<TimeEntry>();
 
             return timeEntry;
-		}
+        }
 
         /// <summary>
         /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/time_entries.md#update-a-time-entry
@@ -150,32 +150,32 @@ namespace Toggl.Services
         /// <returns></returns>
         public bool Delete(long id)
         {
-			var url = string.Format(ApiRoutes.TimeEntry.TimeEntryUrl, id);
+            var url = string.Format(ApiRoutes.TimeEntry.TimeEntryUrl, id);
 
             var rsp = ToggleSrv.Delete(url);
 
             return rsp.StatusCode == HttpStatusCode.OK;
         }
 
-		public bool DeleteIfAny(long[] ids)
-		{
-			if (!ids.Any() || ids == null)
-				return true;
-			return Delete(ids);
-		}
+        public bool DeleteIfAny(long[] ids)
+        {
+            if (!ids.Any() || ids == null)
+                return true;
+            return Delete(ids);
+        }
 
-		public bool Delete(long[] ids)
-		{
-			if (!ids.Any() || ids == null)
-				throw new ArgumentNullException("ids");
+        public bool Delete(long[] ids)
+        {
+            if (!ids.Any() || ids == null)
+                throw new ArgumentNullException("ids");
 
-			var result = new Dictionary<long, bool>(ids.Length);
-			foreach (var id in ids)
-			{
-				result.Add(id, Delete(id));
-			}
+            var url = string.Format(
+                ApiRoutes.TimeEntry.TimeEntryUrlBulkDeleteUrl,
+                string.Join(",", ids.Select(id => id.ToString()).ToArray()));
 
-			return !result.ContainsValue(false);
-		}       
+            var rsp = ToggleSrv.Delete(url);
+
+            return rsp.StatusCode == HttpStatusCode.OK;
+        }
     }
 }

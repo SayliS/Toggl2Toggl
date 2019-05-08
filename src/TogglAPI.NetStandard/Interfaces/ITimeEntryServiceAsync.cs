@@ -25,7 +25,7 @@ namespace Toggl.Interfaces
         /// <param name="obj"></param>
         /// <returns></returns>
         Task<List<TimeEntry>> List(QueryObjects.TimeEntryParams obj);
-        
+
         /// <summary>
         /// 
         /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/time_entries.md#get-running-time-entry
@@ -67,7 +67,7 @@ namespace Toggl.Interfaces
         /// <param name="obj">A TimeEntry object.</param>
         /// <returns>The stopped TimeEntry.</returns>
         Task<TimeEntry> Stop(TimeEntry obj);
-        
+
         /// <summary>
         /// 
         /// https://github.com/toggl/toggl_api_docs/blob/master/chapters/time_entries.md#update-a-time-entry
@@ -83,5 +83,7 @@ namespace Toggl.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         Task<bool> Delete(long id);
+
+        Task<bool> Delete(long[] ids);
     }
 }
