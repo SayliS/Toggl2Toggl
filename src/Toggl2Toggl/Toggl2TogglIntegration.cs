@@ -49,15 +49,11 @@ namespace Toggl2Toggl
             var sourceEntries = GetEntries(from, to, sourceWorkspaceId);
             var destinationEntries = GetEntries(from, to, destinationWorkspaceId);
 
-            Show(sourceEntries);
-
             // clean up all entries
-            foreach (var entry in destinationEntries)
-            {
-                timeEntryService.Delete(entry.Id.Value);
-            }
+            Print("Cleaninig old entries");
+            timeEntryService.Delete(destinationEntries.Select(x => x.Id.Value).Distinct().ToArray());
 
-            Console.WriteLine("Actually entering:");
+            Print("Starting actual sync");
             foreach (var entry in sourceEntries)
             {
                 var found = workspacesClientsProjects.FirstOrDefault(x => x.WorkspaceId == destinationWorkspaceId
@@ -83,6 +79,8 @@ namespace Toggl2Toggl
                 Print(entry);
                 timeEntryService.Add(timeEntry);
             }
+
+            Print("Finished actual sync");
         }
 
         public void Show(DateTime from, DateTime to, string workspaceName)
@@ -127,6 +125,11 @@ namespace Toggl2Toggl
             var p = entry.ProjectName ?? string.Empty;
             var t = string.Join(",", entry.TagNames ?? new List<string>());
             Console.WriteLine($"{c.PadRight(padding)}{p.PadRight(padding)}{t.PadRight(padding)}{entry.Description}");
+        }
+
+        void Print(string text)
+        {
+            Console.WriteLine($"=========================== {text} ===========================");
         }
 
         void MapClientsAndProjects(List<Workspace> workspaces, List<Client> clients, List<Project> projects)
