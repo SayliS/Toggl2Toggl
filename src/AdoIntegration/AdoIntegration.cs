@@ -28,13 +28,15 @@ namespace AdoIntegration
 
             workitem.Fields.TryGetValue("Custom.Client", out string clientName);
 
+            workitem.Fields.TryGetValue("System.WorkItemType", out string workItemType);
+
             // TODO: Work with item parents in case client is not found.
 
             workitem.Fields.TryGetValue("System.AreaPath", out string areaPath);
 
             if (string.IsNullOrEmpty(areaPath) == false || string.IsNullOrEmpty(clientName) == false)
             {
-                adoTicket = new AdoTicketModel(clientName, areaPath);
+                adoTicket = new AdoTicketModel(clientName, areaPath, WorkItemType.Parse(workItemType));
                 return true;
             }
 
