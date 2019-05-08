@@ -72,7 +72,8 @@ namespace Toggl2Toggl
                     Duration = duration,
                     ProjectId = found.ProjectId,
                     Start = DateTime.ParseExact(entry.Start, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy-MM-ddTHH:mm:sszzz"),
-                    Stop = DateTime.ParseExact(entry.Start, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).AddSeconds(duration).ToString("yyyy-MM-ddTHH:mm:sszzz")
+                    Stop = DateTime.ParseExact(entry.Start, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).AddSeconds(duration).ToString("yyyy-MM-ddTHH:mm:sszzz"),
+                    IsBillable = false
                 };
 
                 Print(entry);
