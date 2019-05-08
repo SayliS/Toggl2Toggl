@@ -17,9 +17,13 @@ namespace Toggl2Toggl
             var toggl2ToggleIntegration = new Toggl2TogglIntegration(toggleApiKey);
             toggl2ToggleIntegration.AddClientResolver(new MvClientResolverBasedOnAdoClientTag(new AdoIntegrationClient(orgUrl, adoPersonalAccessToken), 100));
             toggl2ToggleIntegration.AddClientResolver(new PhraseTimeEntryBasedResolver<IClient>(new MvClientPhraseMapping(), 50));
+            toggl2ToggleIntegration.AddClientResolver(new DefaultTimeEntryBasedResolver<IClient>(MvClient.MarketVision, 1));
 
-            toggl2ToggleIntegration.AddProjectResolver(new MvProjectResolveBasedOnAdoAreadPath(new AdoIntegrationClient(orgUrl, adoPersonalAccessToken), 100));
+
+            //toggl2ToggleIntegration.AddProjectResolver(new MvProjectResolveBasedOnAdoAreadPath(new AdoIntegrationClient(orgUrl, adoPersonalAccessToken), 100));
+            toggl2ToggleIntegration.AddProjectResolver(new MvProjectResolveBasedOnAdoItemType(new AdoIntegrationClient(orgUrl, adoPersonalAccessToken), 100));
             toggl2ToggleIntegration.AddProjectResolver(new PhraseTimeEntryBasedResolver<IProject>(new MvProjectPhraseMapping(), 50));
+            toggl2ToggleIntegration.AddProjectResolver(new DefaultTimeEntryBasedResolver<IProject>(MvProject.NewGenSupport, 1));
 
             toggl2ToggleIntegration.Show(startDate, endDate, "Elders workspace");
             //toggl2ToggleIntegration.Sync(startDate, endDate, "Elders workspace", "MarketVision's workspace");
