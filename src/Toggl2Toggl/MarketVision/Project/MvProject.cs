@@ -44,27 +44,12 @@ namespace Toggl2Toggl
             if (string.IsNullOrWhiteSpace(client) == true)
                 client = string.Empty;
 
-            Func<MvProject> foundClinet = null;
-
-            if (MarketVisionProjects.TryGetValue(client, out foundClinet))
+            if (MarketVisionProjects.TryGetValue(client, out Func<MvProject> foundClinet))
             {
                 return foundClinet();
             }
-            switch (client)
-            {
-                case @"marketvision\newgen\support":
-                    return NewGenSupport;
-                case @"marketvision\newgen\projects":
-                    return NewGenProject;
-                case @"marketvision\devops":
-                    return DevOps;
-                case @"marketvision\arbor":
-                    return Arbor;
-                case @"marketvision\linkpro":
-                    return LinkPro;
-                default:
-                    return NoProject;
-            }
+
+            return NoProject;
         }
 
         static void SetupClinets()
