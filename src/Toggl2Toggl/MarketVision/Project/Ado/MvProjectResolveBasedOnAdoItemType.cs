@@ -14,6 +14,7 @@ namespace Toggl2Toggl
             Map(WorkItemType.ProductBacklogItem, MvProject.NewGenProject);
             Map(WorkItemType.Support, MvProject.NewGenSupport);
             Map(WorkItemType.Bug, MvProject.NewGenSupport);
+            Map(WorkItemType.Task, MvProject.NewGenSupport);
         }
 
         public void Map(WorkItemType workItemType, IProject project)

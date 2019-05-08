@@ -23,6 +23,8 @@ namespace AdoIntegration
 
         public static WorkItemType Bug = new WorkItemType("Bug");
 
+        public static WorkItemType Task = new WorkItemType("Task");
+
         public static implicit operator string(WorkItemType current)
         {
             return current.Value;
