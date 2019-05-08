@@ -26,6 +26,7 @@ namespace Toggl2Toggl
             Map(MvProject.NewGenSupport, "General Customer Support");
             Map(MvProject.NewGenProject, "RamoSoft Commission Statements");
             Map(MvProject.NewGenSupport, "Idle time");
+            Map(MvProject.NewGenSupport, "Overview of Dev Process with VAPT team");
 
 
             ProjectsToWords();
@@ -33,12 +34,12 @@ namespace Toggl2Toggl
 
         public void Map(IProject project, string word)
         {
-            if (mapping.ContainsKey(project.ProjectName) == false)
+            if (mapping.ContainsKey(project.Name) == false)
             {
-                mapping.Add(project.ProjectName, new HashSet<string>());
+                mapping.Add(project.Name, new HashSet<string>());
             }
 
-            mapping[project.ProjectName].Add(word);
+            mapping[project.Name].Add(word);
         }
 
         public bool TryGet(string phrase, out IProject project)
@@ -63,7 +64,7 @@ namespace Toggl2Toggl
 
             foreach (var project in projects)
             {
-                Map(project, project.ProjectName);
+                Map(project, project.Name);
             }
 
         }

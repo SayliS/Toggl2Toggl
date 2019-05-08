@@ -14,9 +14,9 @@ namespace Toggl2Toggl
         {
             if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(nameof(value));
 
-            ClientName = value;
+            Name = value;
         }
-        public string ClientName { get; private set; }
+        public string Name { get; private set; }
 
         public static MvClient NoClient = new MvClient("No Client");
         public static MvClient BodHd = new MvClient("BodHd");
@@ -31,12 +31,12 @@ namespace Toggl2Toggl
 
         public static implicit operator string(MvClient current)
         {
-            return current.ClientName;
+            return current.Name;
         }
 
         public override string ToString()
         {
-            return ClientName;
+            return Name;
         }
 
         public static MvClient Parse(string client)
@@ -72,7 +72,7 @@ namespace Toggl2Toggl
 
                 foreach (var client in clients)
                 {
-                    MarketVisionClients.Add(client.ClientName.ToLower(), () => client);
+                    MarketVisionClients.Add(client.Name.ToLower(), () => client);
                 }
             }
         }

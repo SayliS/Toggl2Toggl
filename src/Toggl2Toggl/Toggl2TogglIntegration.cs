@@ -15,6 +15,8 @@ namespace Toggl2Toggl
 
         readonly ISet<ITimeEntryBasedResolver<IProject>> projectNameResolvers;
 
+        readonly ISet<ITimeEntryBasedResolver<ITag>> tagResolvers;
+
         readonly ITimeEntryService timeEntryService;
 
         readonly List<WorkspaceClientProjectModel> workspacesClientsProjects;
@@ -30,6 +32,7 @@ namespace Toggl2Toggl
 
             clientNameResolvers = new HashSet<ITimeEntryBasedResolver<IClient>>();
             projectNameResolvers = new HashSet<ITimeEntryBasedResolver<IProject>>();
+            tagResolvers = new HashSet<ITimeEntryBasedResolver<ITag>>();
 
             List<Client> clients = clientService.List(false);
             List<Project> projects = projectService.List();
@@ -73,7 +76,8 @@ namespace Toggl2Toggl
                     ProjectId = found.ProjectId,
                     Start = DateTime.ParseExact(entry.Start, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy-MM-ddTHH:mm:sszzz"),
                     Stop = DateTime.ParseExact(entry.Start, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).AddSeconds(duration).ToString("yyyy-MM-ddTHH:mm:sszzz"),
-                    IsBillable = false
+                    IsBillable = false,
+                    TagNames = entry.TagNames
                 };
 
                 Print(entry);
@@ -98,10 +102,16 @@ namespace Toggl2Toggl
             projectNameResolvers.Add(resolver);
         }
 
+        public void AddTagResolver(ITimeEntryBasedResolver<ITag> resolver)
+        {
+            tagResolvers.Add(resolver);
+        }
+
         void Show(List<ExtendedTimeEntry> entries)
         {
             Console.Write("Client".PadRight(padding));
             Console.Write("Project".PadRight(padding));
+            Console.Write("Tags".PadRight(padding));
             Console.Write("Description");
             Console.WriteLine();
 
@@ -115,7 +125,8 @@ namespace Toggl2Toggl
         {
             var c = entry.ClientName ?? string.Empty;
             var p = entry.ProjectName ?? string.Empty;
-            Console.WriteLine($"{c.PadRight(padding)}{p.PadRight(padding)}{entry.Description}");
+            var t = string.Join(",", entry.TagNames ?? new List<string>());
+            Console.WriteLine($"{c.PadRight(padding)}{p.PadRight(padding)}{t.PadRight(padding)}{entry.Description}");
         }
 
         void MapClientsAndProjects(List<Workspace> workspaces, List<Client> clients, List<Project> projects)
@@ -150,7 +161,7 @@ namespace Toggl2Toggl
 
                     if (clientNameResolver.TryResolve(entry, out IClient client))
                     {
-                        entry.DefineClientName(client.ClientName);
+                        entry.DefineClientName(client.Name);
                     }
                 }
 
@@ -160,7 +171,16 @@ namespace Toggl2Toggl
 
                     if (projectNameResolver.TryResolve(entry, out IProject project))
                     {
-                        entry.DefineProjectName(project.ProjectName);
+                        entry.DefineProjectName(project.Name);
+                    }
+                }
+
+                foreach (var tagResolver in tagResolvers.OrderByDescending(x => x.Weight))
+                {
+                    // maybe break here in case we already have found tag?
+                    if (tagResolver.TryResolve(entry, out ITag tag))
+                    {
+                        entry.AddTagName(tag.Name);
                     }
                 }
             }

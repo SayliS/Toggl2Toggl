@@ -1,4 +1,5 @@
-﻿using Toggl;
+﻿using System.Collections.Generic;
+using Toggl;
 
 namespace Toggl2Toggl
 {
@@ -36,6 +37,15 @@ namespace Toggl2Toggl
         public void DefineProjectName(string projectName)
         {
             ProjectName = projectName;
+        }
+
+        public void AddTagName(string tagName)
+        {
+            if (TagNames is null)
+                TagNames = new List<string>();
+
+            if (TagNames.Contains(tagName) == false)
+                TagNames.Add(tagName);
         }
 
         public bool IsProjectNameDefined { get { return string.IsNullOrEmpty(ProjectName) == false; } }

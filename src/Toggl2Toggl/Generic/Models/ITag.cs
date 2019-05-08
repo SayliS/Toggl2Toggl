@@ -1,6 +1,6 @@
 ﻿namespace Toggl2Toggl
 {
-    public interface IProject
+    public interface ITag
     {
         string Name { get; }
     }

@@ -6,7 +6,7 @@ namespace Toggl2Toggl
 {
     public class MvProject : IProject
     {
-        static Dictionary<string, Func<MvProject>> MarketVisionProjects = new Dictionary<string, Func<MvProject>>();
+        static readonly Dictionary<string, Func<MvProject>> MarketVisionProjects = new Dictionary<string, Func<MvProject>>();
 
         MvProject() { }
 
@@ -14,9 +14,9 @@ namespace Toggl2Toggl
         {
             if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(nameof(value));
 
-            ProjectName = value;
+            Name = value;
         }
-        public string ProjectName { get; private set; }
+        public string Name { get; private set; }
 
         public static MvProject NoProject = new MvProject("No Project");
         public static MvProject NewGenProject = new MvProject("NewGen Projects");
@@ -28,12 +28,12 @@ namespace Toggl2Toggl
 
         public static implicit operator string(MvProject current)
         {
-            return current.ProjectName;
+            return current.Name;
         }
 
         public override string ToString()
         {
-            return ProjectName;
+            return Name;
         }
 
         public static MvProject Parse(string client)
@@ -61,7 +61,7 @@ namespace Toggl2Toggl
 
                 foreach (var project in projects)
                 {
-                    MarketVisionProjects.Add(project.ProjectName.ToLower(), () => project);
+                    MarketVisionProjects.Add(project.Name.ToLower(), () => project);
                 }
             }
         }

@@ -27,12 +27,12 @@ namespace Toggl2Toggl
 
         public void Map(IClient client, string word)
         {
-            if (mapping.ContainsKey(client.ClientName) == false)
+            if (mapping.ContainsKey(client.Name) == false)
             {
-                mapping.Add(client.ClientName, new HashSet<string>());
+                mapping.Add(client.Name, new HashSet<string>());
             }
 
-            mapping[client.ClientName].Add(word);
+            mapping[client.Name].Add(word);
         }
 
         public bool TryGet(string phrase, out IClient client)
@@ -58,7 +58,7 @@ namespace Toggl2Toggl
 
             foreach (var client in clients)
             {
-                Map(client, client.ClientName);
+                Map(client, client.Name);
             }
 
         }
