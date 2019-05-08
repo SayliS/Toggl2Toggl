@@ -12,9 +12,17 @@ namespace Toggl2Toggl
         {
             mapping = new Dictionary<string, HashSet<string>>();
 
-            Map(MvTag.Development, "Grooming");
+            Map(MvTag.Meeting, "Groom");
+            Map(MvTag.Meeting, "Planning");
+            Map(MvTag.Meeting, "Standup");
+            Map(MvTag.Meeting, "Meeting");
+            Map(MvTag.Meeting, "Training");
+            Map(MvTag.Meeting, "Retrospective");
+            Map(MvTag.Meeting, "Project Demo");
+            Map(MvTag.Meeting, "State of company");
+
+
             Map(MvTag.Development, "Deployment");
-            Map(MvTag.Development, "planning");
             Map(MvTag.Development, "General Customer Support");
         }
 

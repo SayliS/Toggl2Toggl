@@ -20,6 +20,8 @@ namespace Toggl2Toggl
 
         public static MvTag Development = new MvTag("Development");
 
+        public static MvTag Meeting = new MvTag("Meeting");
+
         public static implicit operator string(MvTag current)
         {
             return current.Name;
