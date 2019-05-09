@@ -23,7 +23,7 @@ namespace Toggl2Toggl
             TaskName = timeEntry.TaskName;
             UpdatedOn = timeEntry.UpdatedOn;
             WorkspaceId = timeEntry.WorkspaceId;
-            RoundUpTo = roundUpTo;
+            RoundUpTo = roundUpTo == TimeSpan.Zero ? TimeSpan.FromSeconds(1) : roundUpTo;
         }
 
         public TimeSpan RoundUpTo { get; private set; }
