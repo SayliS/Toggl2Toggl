@@ -132,7 +132,7 @@ namespace Toggl2Toggl
         void PrintTotal(IEnumerable<ExtendedTimeEntry> entries)
         {
             var total = TimeSpan.FromSeconds(entries.Sum(x => x.RoundedDuration.GetValueOrDefault()));
-            Print($"Total time: {(int)total.TotalHours}:{total.Minutes}:{total.Seconds}");
+            Print($"Total time: {(int)total.TotalHours}:{total.Minutes.ToString("d2")}:{total.Seconds.ToString("d2")}");
         }
 
         void Print(string text)
