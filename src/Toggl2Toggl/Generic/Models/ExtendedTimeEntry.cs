@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Toggl;
 
 namespace Toggl2Toggl
 {
     public class ExtendedTimeEntry : TimeEntry
     {
-        public ExtendedTimeEntry(TimeEntry timeEntry)
+        public ExtendedTimeEntry(TimeEntry timeEntry) : this(timeEntry, TimeSpan.FromMinutes(15)) { }
+
+        public ExtendedTimeEntry(TimeEntry timeEntry, TimeSpan roundUpTo)
         {
             CreatedWith = timeEntry.CreatedWith;
             Description = timeEntry.Description;
@@ -20,7 +23,10 @@ namespace Toggl2Toggl
             TaskName = timeEntry.TaskName;
             UpdatedOn = timeEntry.UpdatedOn;
             WorkspaceId = timeEntry.WorkspaceId;
+            RoundUpTo = roundUpTo;
         }
+
+        public TimeSpan RoundUpTo { get; private set; }
 
         public string ClientName { get; private set; }
 
@@ -31,6 +37,7 @@ namespace Toggl2Toggl
 
         public bool IsClientNameDefined { get { return string.IsNullOrEmpty(ClientName) == false; } }
 
+        public long? RoundedDuration { get { return (long)(Math.Ceiling((double)Duration / RoundUpTo.TotalSeconds) * RoundUpTo.TotalSeconds); } }
 
         public string ProjectName { get; private set; }
 

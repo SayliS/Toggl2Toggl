@@ -60,18 +60,16 @@ namespace Toggl2Toggl
                 && x.ClientName.Equals(entry.ClientName, StringComparison.OrdinalIgnoreCase)
                 && x.ProjectName.Equals(entry.ProjectName, StringComparison.OrdinalIgnoreCase));
 
-                long duration = (long)(Math.Ceiling((double)entry.Duration / 900d) * 900d);
-
                 if (found is null) throw new Exception();
 
                 var timeEntry = new TimeEntry
                 {
                     CreatedWith = "toggle2toggle",
                     Description = entry.Description,
-                    Duration = duration,
+                    Duration = entry.RoundedDuration,
                     ProjectId = found.ProjectId,
                     Start = DateTime.ParseExact(entry.Start, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy-MM-ddTHH:mm:sszzz"),
-                    Stop = DateTime.ParseExact(entry.Start, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).AddSeconds(duration).ToString("yyyy-MM-ddTHH:mm:sszzz"),
+                    Stop = DateTime.ParseExact(entry.Start, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).AddSeconds(entry.RoundedDuration.GetValueOrDefault()).ToString("yyyy-MM-ddTHH:mm:sszzz"),
                     IsBillable = false,
                     TagNames = entry.TagNames
                 };
@@ -110,6 +108,7 @@ namespace Toggl2Toggl
             Console.Write("Client".PadRight(padding));
             Console.Write("Project".PadRight(padding));
             Console.Write("Tags".PadRight(padding));
+            Console.Write("Duration".PadRight(padding));
             Console.Write("Description");
             Console.WriteLine();
 
@@ -124,7 +123,10 @@ namespace Toggl2Toggl
             var c = entry.ClientName ?? string.Empty;
             var p = entry.ProjectName ?? string.Empty;
             var t = string.Join(",", entry.TagNames ?? new List<string>());
-            Console.WriteLine($"{c.PadRight(padding)}{p.PadRight(padding)}{t.PadRight(padding)}{entry.Description}");
+            var d = TimeSpan.FromSeconds(entry.RoundedDuration.GetValueOrDefault()).ToString();
+            Console.WriteLine($"{c.PadRight(padding)}{p.PadRight(padding)}{t.PadRight(padding)}{d.PadRight(padding)}{entry.Description}");
+        }
+
         }
 
         void Print(string text)
