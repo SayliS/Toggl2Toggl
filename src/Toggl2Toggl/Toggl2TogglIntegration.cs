@@ -78,6 +78,7 @@ namespace Toggl2Toggl
                 timeEntryService.Add(timeEntry);
             }
 
+            PrintTotal(sourceEntries);
             Print("Finished actual sync");
         }
 
@@ -86,6 +87,7 @@ namespace Toggl2Toggl
             if (TryGetWorkspaceId(workspaceName, out long sourceWorkspaceId) == false) return;
             var entries = GetEntries(from, to, sourceWorkspaceId);
             Show(entries);
+            PrintTotal(entries);
         }
 
         public void AddClientResolver(ITimeEntryBasedResolver<IClient> resolver)
@@ -127,6 +129,10 @@ namespace Toggl2Toggl
             Console.WriteLine($"{c.PadRight(padding)}{p.PadRight(padding)}{t.PadRight(padding)}{d.PadRight(padding)}{entry.Description}");
         }
 
+        void PrintTotal(IEnumerable<ExtendedTimeEntry> entries)
+        {
+            var total = TimeSpan.FromSeconds(entries.Sum(x => x.RoundedDuration.GetValueOrDefault()));
+            Print($"Total time: {(int)total.TotalHours}:{total.Minutes}:{total.Seconds}");
         }
 
         void Print(string text)
