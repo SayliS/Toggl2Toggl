@@ -37,7 +37,7 @@ namespace Toggl2Toggl
 
         public bool IsClientNameDefined { get { return string.IsNullOrEmpty(ClientName) == false; } }
 
-        public long? RoundedDuration { get { return (long)(Math.Ceiling((double)Duration / RoundUpTo.TotalSeconds) * RoundUpTo.TotalSeconds); } }
+        public long? RoundedDuration { get { return Math.Max((long)(Math.Ceiling((double)Duration / RoundUpTo.TotalSeconds) * RoundUpTo.TotalSeconds), 0); } }
 
         public string ProjectName { get; private set; }
 
