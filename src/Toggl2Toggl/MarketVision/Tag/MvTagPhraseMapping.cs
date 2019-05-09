@@ -21,6 +21,7 @@ namespace Toggl2Toggl
             Map(MvTag.Meeting, "Project Demo");
             Map(MvTag.Meeting, "State of company");
             Map(MvTag.Meeting, "Product Review");
+            Map(MvTag.Meeting, "NewGen/Professional Services Demo");
 
             Map(MvTag.Development, "Deployment");
             Map(MvTag.Development, "General Customer Support");
