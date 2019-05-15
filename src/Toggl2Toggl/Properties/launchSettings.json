@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Toggl2Toggl": {
+      "commandName": "Project",
+      "commandLineArgs": "show --toggle-api-key {toggle_api_key} --ado-personal-access-token {ado-personal-access-token} --ado-organization-url https://marketvision.visualstudio.com --from-date \"05/10/2019\" --to-date \"05/15/2019\" --toggle-from-workspace \"Elders workspace\""
+    }
+  }
+}
