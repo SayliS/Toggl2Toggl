@@ -51,7 +51,8 @@ namespace Toggl2Toggl
 
             // clean up all entries
             Print("Cleaninig old entries");
-            timeEntryService.Delete(destinationEntries.Select(x => x.Id.Value).Distinct().ToArray());
+            if (destinationEntries.Any())
+                timeEntryService.Delete(destinationEntries.Select(x => x.Id.Value).Distinct().ToArray());
 
             Print("Starting actual sync");
             foreach (var entry in sourceEntries)
@@ -157,7 +158,8 @@ namespace Toggl2Toggl
             var timeEntryParams = new TimeEntryParams
             {
                 StartDate = from,
-                EndDate = to
+                EndDate = to,
+                WorkspaceId = workspaceId
             };
 
             List<ExtendedTimeEntry> entries = timeEntryService.List(timeEntryParams)
