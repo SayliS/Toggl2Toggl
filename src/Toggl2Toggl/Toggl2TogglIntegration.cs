@@ -83,12 +83,23 @@ namespace Toggl2Toggl
             Print("Finished actual sync");
         }
 
+        public void Sync(int daysBackFromToday, string fromWorkspaceName, string toWorkspaceName)
+        {
+            Sync(DateTime.UtcNow.AddDays(-daysBackFromToday), DateTime.UtcNow, fromWorkspaceName, toWorkspaceName);
+        }
+
+
         public void Show(DateTime from, DateTime to, string workspaceName)
         {
             if (TryGetWorkspaceId(workspaceName, out long sourceWorkspaceId) == false) return;
             var entries = GetEntries(from, to, sourceWorkspaceId);
             Show(entries);
             PrintTotal(entries);
+        }
+
+        public void Show(int daysBackFromToday, string workspaceName)
+        {
+            Show(DateTime.UtcNow.AddDays(-daysBackFromToday), DateTime.UtcNow, workspaceName);
         }
 
         public void AddClientResolver(ITimeEntryBasedResolver<IClient> resolver)
