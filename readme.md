@@ -31,9 +31,9 @@
   
   * Example:
   
-	`Toggl2Toggl show --toggle-api-key {toggle_api_key} --ado-personal-access-token {ado-personal-access-token} --ado-organization-url https://marketvision.visualstudio.com --from-date "05/10/2019" --to-date "05/15/2019" --toggle-from-workspace "Elders workspace"`
+	`Toggl2Toggl show --toggle-api-key {toggle_api_key} --ado-personal-access-token {ado-personal-access-token} --ado-organization-url https://{organization-name}.visualstudio.com --from-date "05/10/2019" --to-date "05/15/2019" --toggle-from-workspace "{workspace-name}"`
     
-	`Toggl2Toggl show --toggle {toggle_api_key} --ado {ado-personal-access-token} --url https://marketvision.visualstudio.com --from "05/10/2019" --to "05/15/2019" --workspace-from "Elders workspace"`
+	`Toggl2Toggl show --toggle {toggle_api_key} --ado {ado-personal-access-token} --url https://{organization-name}.visualstudio.com --from "05/10/2019" --to "05/15/2019" --workspace-from "{workspace-name}"`
     
 - - -
 
@@ -57,9 +57,9 @@
   `--workspace-to, --toggle-to-workspace <TOGGLE-TO-WORKSPACE>` -           Workspace to which to create the new items
   
 * Example:
-	`Toggl2Toggl show --toggle-api-key {toggle_api_key} --ado-personal-access-token {ado-personal-access-token} --ado-organization-url https://marketvision.visualstudio.com --from-date "05/10/2019" --to-date "05/15/2019" --toggle-from-workspace "Elders workspace" --toggle-to-workspace ""MarketVision's workspace"`
+	`Toggl2Toggl show --toggle-api-key {toggle_api_key} --ado-personal-access-token {ado-personal-access-token} --ado-organization-url https://{organization-name}.visualstudio.com --from-date "05/10/2019" --to-date "05/15/2019" --toggle-from-workspace "{workspace-name}" --toggle-to-workspace "{workspace-name}"`
     
-	`Toggl2Toggl show --toggle {toggle_api_key} --ado {ado-personal-access-token} --url https://marketvision.visualstudio.com --from "05/10/2019" --to "05/15/2019" --workspace-from "Elders workspace" --workspace-to ""MarketVision's workspace"`
+	`Toggl2Toggl show --toggle {toggle_api_key} --ado {ado-personal-access-token} --url https://{organization-name}.visualstudio.com --from "05/10/2019" --to "05/15/2019" --workspace-from "{workspace-name}" --workspace-to "{workspace-name}"`
   
   
  
