@@ -42,11 +42,13 @@ namespace Toggl2Toggl
             MapClientsAndProjects(workspaces, clients, projects);
         }
 
-        public void Sync(DateTime from, DateTime to, string fromWorkspaceName, string toWorkspaceName)
+        public void Sync(DateTime from, DateTime to, string fromWorkspaceName, string toWorkspaceName, string fromProjectName)
         {
             if (TryGetWorkspaceId(fromWorkspaceName, out long sourceWorkspaceId) == false) return;
             if (TryGetWorkspaceId(toWorkspaceName, out long destinationWorkspaceId) == false) return;
-            var sourceEntries = GetEntries(from, to, sourceWorkspaceId);
+            if (TryGetProjectId(fromWorkspaceName, fromProjectName, out long sourceProjectId) == false) return;
+
+            var sourceEntries = GetEntries(from, to, sourceWorkspaceId, sourceProjectId);
             var destinationEntries = GetEntries(from, to, destinationWorkspaceId);
 
             // clean up all entries
@@ -153,7 +155,7 @@ namespace Toggl2Toggl
             }
         }
 
-        List<ExtendedTimeEntry> GetEntries(DateTime from, DateTime to, long workspaceId)
+        List<ExtendedTimeEntry> GetEntries(DateTime from, DateTime to, long workspaceId, long? projectId=null)
         {
             var timeEntryParams = new TimeEntryParams
             {
@@ -162,9 +164,20 @@ namespace Toggl2Toggl
                 WorkspaceId = workspaceId
             };
 
-            List<ExtendedTimeEntry> entries = timeEntryService.List(timeEntryParams)
+            List<ExtendedTimeEntry> entries = new List<ExtendedTimeEntry>();
+
+            if(projectId.HasValue)
+            {
+                entries = timeEntryService.List(timeEntryParams)
+                .Where(x => x.WorkspaceId.Value == workspaceId && x.ProjectId == projectId)
+                .Select(x => new ExtendedTimeEntry(x)).ToList();
+            }
+            else
+            {
+                entries = timeEntryService.List(timeEntryParams)
                 .Where(x => x.WorkspaceId.Value == workspaceId)
                 .Select(x => new ExtendedTimeEntry(x)).ToList();
+            }
 
             foreach (var entry in entries)
             {
@@ -214,5 +227,21 @@ namespace Toggl2Toggl
 
             return false;
         }
+        bool TryGetProjectId(string workspaceName, string projectName, out long id)
+        {
+            id = 1;
+            var found = workspacesClientsProjects.FirstOrDefault(x =>
+            x.WorkspaceName.Equals(workspaceName, StringComparison.OrdinalIgnoreCase)
+            && x.ProjectName.Equals(projectName, StringComparison.OrdinalIgnoreCase));
+
+            if (found is null == false)
+            {
+                id = found.ProjectId;
+                return true;
+            }
+
+            return false;
+        }
+        
     }
 }

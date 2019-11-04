@@ -7,11 +7,11 @@ namespace Toggl2Toggl
     {
         static void Main(string[] args)
         {
-            var toggleApiKey = "";
-            var adoPersonalAccessToken = "";
+            var toggleApiKey = "b05a8bdae0b4a6db59ca96980ab0f9c1";
+            var adoPersonalAccessToken = "gjgygddqnqdraoioc3tmuxpqmij6feg6v4km7eeakrj4kikgdzna";
             var orgUrl = new Uri("https://marketvision.visualstudio.com");
 
-            var startDate = DateTime.UtcNow.AddMonths(-2).StartOfDay();
+            var startDate = DateTime.UtcNow.AddDays(-7).StartOfDay();
             var endDate = DateTime.UtcNow.EndOfDay();
 
             var toggl2ToggleIntegration = new Toggl2TogglIntegration(toggleApiKey);
@@ -31,7 +31,7 @@ namespace Toggl2Toggl
             toggl2ToggleIntegration.AddTagResolver(new PhraseTimeEntryBasedResolver<ITag>(new MvTagPhraseMapping(), 40));
 
             //toggl2ToggleIntegration.Show(startDate, endDate, "Elders workspace");
-            toggl2ToggleIntegration.Sync(startDate, endDate, "Elders workspace", "MarketVision's workspace");
+            toggl2ToggleIntegration.Sync(startDate, endDate, "Elders workspace", "MarketVision's workspace", "Newgen");
 
             Console.ReadKey();
         }
