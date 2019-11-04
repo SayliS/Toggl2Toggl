@@ -16,6 +16,7 @@ namespace Toggl2Toggl
             Map(@"marketvision\devops", MvProject.DevOps);
             Map(@"marketvision\arbor", MvProject.Arbor);
             Map(@"marketvision\linkpro", MvProject.LinkPro);
+            Map(@"marketvision\linkpro", MvProject.Genesis);
         }
 
         public void Map(string areaPath, IProject project)

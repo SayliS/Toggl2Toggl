@@ -12,9 +12,11 @@ namespace Toggl2Toggl
         {
             mapping = new Dictionary<string, IProject>();
             Map(WorkItemType.ProductBacklogItem, MvProject.NewGenProject);
+            Map(WorkItemType.Feature, MvProject.NewGenProject);
             Map(WorkItemType.Support, MvProject.NewGenSupport);
             Map(WorkItemType.Bug, MvProject.NewGenSupport);
             Map(WorkItemType.Task, MvProject.NewGenSupport);
+            Map(WorkItemType.Epic, MvProject.NewGenProject);
         }
 
         public void Map(WorkItemType workItemType, IProject project)

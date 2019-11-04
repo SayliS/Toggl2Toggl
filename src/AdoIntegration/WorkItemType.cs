@@ -19,9 +19,13 @@ namespace AdoIntegration
 
         public static WorkItemType ProductBacklogItem = new WorkItemType("Product Backlog Item");
 
+        public static WorkItemType Feature = new WorkItemType("Feature");
+
         public static WorkItemType Support = new WorkItemType("Support");
 
         public static WorkItemType Bug = new WorkItemType("Bug");
+
+        public static WorkItemType Epic = new WorkItemType("Epic");
 
         public static WorkItemType Task = new WorkItemType("Task");
 

@@ -14,7 +14,7 @@ namespace Toggl2Toggl
             result = default(IClient);
             if (TryExtractAdoTicketNumber(entry, out int adoId) == false) return false;
 
-            if (adoIntegrationClient.TryGetAdoData(adoId, out AdoTicketModel adoTicket))
+            if (adoIntegrationClient.TryGetAdoData(adoId, out AdoTicketModel adoTicket) && string.IsNullOrEmpty(adoTicket.ClientName) == false)
             {
                 result = MvClient.Parse(adoTicket.ClientName);
                 return true;

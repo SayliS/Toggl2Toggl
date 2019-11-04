@@ -22,9 +22,17 @@ namespace Toggl2Toggl
             Map(MvTag.Meeting, "State of company");
             Map(MvTag.Meeting, "Product Review");
             Map(MvTag.Meeting, "NewGen/Professional Services Demo");
+            Map(MvTag.Meeting, "NewGen/Professional Services/Genesis Demo");
+            Map(MvTag.Meeting, "PromoKeto - Touchbase");
+            Map(MvTag.Meeting, "PromoKeto- Touchbase");
+            Map(MvTag.Meeting, "Release notes problems");
+            Map(MvTag.Meeting, "Product Item Review");
+            Map(MvTag.Meeting, "NewGen / Legacy Demo");
+
 
             Map(MvTag.Development, "Deployment");
             Map(MvTag.Development, "General Customer Support");
+            Map(MvTag.Development, "maintanence");
         }
 
         public void Map(ITag tag, string phrase)

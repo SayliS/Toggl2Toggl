@@ -21,6 +21,8 @@ namespace Toggl2Toggl
             Map(MvClient.MarketVision, "Idle time");
             Map(MvClient.MarketVision, "General Customer Support");
             Map(MvClient.Pruvit, "RamoSoft Commission Statements");
+            Map(MvClient.Pruvit, "Promoketo");
+            Map(MvClient.LinkBiosciences, "Genesis");
 
             ClientsToWords();
         }

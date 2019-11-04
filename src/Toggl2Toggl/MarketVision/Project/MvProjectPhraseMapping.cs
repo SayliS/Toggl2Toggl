@@ -21,13 +21,15 @@ namespace Toggl2Toggl
             Map(MvProject.NewGenSupport, "Retrospective");
             Map(MvProject.NewGenSupport, "planning");
             Map(MvProject.NewGenSupport, "NewGen/Legacy Standup");
+            Map(MvProject.NewGenSupport, "NewGen/Genesis - Standup");
             Map(MvProject.NewGenSupport, "MarketVision State of company");
             Map(MvProject.NewGenSupport, "MarketVision");
             Map(MvProject.NewGenSupport, "General Customer Support");
             Map(MvProject.NewGenProject, "RamoSoft Commission Statements");
             Map(MvProject.NewGenSupport, "Idle time");
             Map(MvProject.NewGenSupport, "Overview of Dev Process with VAPT team");
-
+            Map(MvProject.NewGenSupport, "maintanence");
+            Map(MvProject.Genesis, "Genesis");
 
             ProjectsToWords();
         }

@@ -25,6 +25,8 @@ namespace Toggl2Toggl
         public static MvProject DevOps = new MvProject("DevOps");
         public static MvProject Vapt = new MvProject("Vapt");
         public static MvProject LinkPro = new MvProject("LinkPro");
+        public static MvProject Genesis = new MvProject("Genesis");
+        //public static MvProject LinkProBioScience = new MvProject("Link BioSciences");
 
         public static implicit operator string(MvProject current)
         {
