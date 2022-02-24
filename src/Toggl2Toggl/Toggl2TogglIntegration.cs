@@ -70,8 +70,8 @@ namespace Toggl2Toggl
                     Description = entry.Description,
                     Duration = entry.RoundedDuration,
                     ProjectId = found.ProjectId,
-                    Start = DateTime.ParseExact(entry.Start, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy-MM-ddTHH:mm:sszzz"),
-                    Stop = DateTime.ParseExact(entry.Start, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).AddSeconds(entry.RoundedDuration.GetValueOrDefault()).ToString("yyyy-MM-ddTHH:mm:sszzz"),
+                    Start = DateTimeOffset.Parse(entry.Start).ToString("yyyy-MM-ddTHH:mm:sszzz"),// "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).ToString("yyyy-MM-ddTHH:mm:sszzz"),
+                    Stop = DateTimeOffset.Parse(entry.Start).AddSeconds(entry.RoundedDuration.GetValueOrDefault()).ToString("yyyy-MM-ddTHH:mm:sszzz"),// "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture).AddSeconds(entry.RoundedDuration.GetValueOrDefault()).ToString("yyyy-MM-ddTHH:mm:sszzz"),
                     IsBillable = false,
                     TagNames = entry.TagNames
                 };

@@ -66,9 +66,10 @@ namespace Toggl.Services
         public async System.Threading.Tasks.Task<TResponse> Get<TResponse>(string url, List<KeyValuePair<string, string>> args)
         {
             var response = await Get<TResponse>(new ApiRequest()
-                                  {
-                                      Url = url, Args = args
-                                  });
+            {
+                Url = url,
+                Args = args
+            });
             return response;
         }
 
@@ -146,7 +147,7 @@ namespace Toggl.Services
             return response;
         }
 
-        private async System.Threading.Tasks.Task<TResponse> Get<TResponse>(ApiRequest apiRequest) 
+        private async System.Threading.Tasks.Task<TResponse> Get<TResponse>(ApiRequest apiRequest)
         {
             string value = "";
 
@@ -178,7 +179,7 @@ namespace Toggl.Services
                 content = reader.ReadToEnd();
             }
 
-            var rsp = JsonConvert.DeserializeObject<TResponse>(content);              
+            var rsp = JsonConvert.DeserializeObject<TResponse>(content);
             return rsp;
         }
 
@@ -200,23 +201,23 @@ namespace Toggl.Services
             var authRequest = (HttpWebRequest)HttpWebRequest.Create(apiRequest.Url);
 
             authRequest.Method = apiRequest.Method;
-			authRequest.ContentType = apiRequest.ContentType;
-			authRequest.Credentials = CredentialCache.DefaultNetworkCredentials;
-			
+            authRequest.ContentType = apiRequest.ContentType;
+            authRequest.Credentials = CredentialCache.DefaultNetworkCredentials;
+
             authRequest.Headers.Add(GetAuthHeader());
 
             if (apiRequest.Method == "POST" || apiRequest.Method == "PUT")
             {
-	            var utd8WithoutBom = new UTF8Encoding(false);
+                var utd8WithoutBom = new UTF8Encoding(false);
 
                 value += apiRequest.Data;
-				authRequest.ContentLength = utd8WithoutBom.GetByteCount(value);
-				using (var writer = new StreamWriter(authRequest.GetRequestStream(), utd8WithoutBom))
+                authRequest.ContentLength = utd8WithoutBom.GetByteCount(value);
+                using (var writer = new StreamWriter(authRequest.GetRequestStream(), utd8WithoutBom))
                 {
                     writer.Write(value);
                 }
             }
-            
+
             var authResponse = (HttpWebResponse)authRequest.GetResponse();
             string content = "";
             using (var reader = new StreamReader(authResponse.GetResponseStream(), Encoding.UTF8))
@@ -240,24 +241,24 @@ namespace Toggl.Services
 
             try
             {
-	            ApiResponse rsp = content.ToLower() == "null" 
-					? new ApiResponse { Data = null } 
-					: JsonConvert.DeserializeObject<ApiResponse>(content);
-	            
+                ApiResponse rsp = content.ToLower() == "null"
+                    ? new ApiResponse { Data = null }
+                    : JsonConvert.DeserializeObject<ApiResponse>(content);
+
                 rsp.StatusCode = authResponse.StatusCode;
                 rsp.Method = authResponse.Method;
                 return rsp;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 var token = JToken.Parse(content);
                 var rsp = new ApiResponse()
-                    {
-                        Data = token,
-                        related_data_updated_at = DateTime.Now,
-                        StatusCode = authResponse.StatusCode,
-                        Method = authResponse.Method
-                    };
+                {
+                    Data = token,
+                    related_data_updated_at = DateTime.Now,
+                    StatusCode = authResponse.StatusCode,
+                    Method = authResponse.Method
+                };
                 return rsp;
             }
 

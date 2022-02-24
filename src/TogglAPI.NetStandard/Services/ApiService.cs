@@ -287,15 +287,17 @@ namespace Toggl.Services
 
             try
             {
-                ApiResponse rsp = content.ToLower() == "null"
-                    ? new ApiResponse { Data = null }
-                    : JsonConvert.DeserializeObject<ApiResponse>(content);
+                object[] data = content.ToLower() == "null"
+                    ? null
+                    : JsonConvert.DeserializeObject<object[]>(content);
 
+                var rsp = new ApiResponse();
+                rsp.Data = data;
                 rsp.StatusCode = authResponse.StatusCode;
                 rsp.Method = authResponse.Method;
                 return rsp;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 var token = JToken.Parse(content);
                 var rsp = new ApiResponse()
