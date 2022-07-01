@@ -242,3 +242,4 @@ $RECYCLE.BIN/
 
 # Directories which start with '.'
 **/.*/
+/src/Toggl2Toggl/appsettings.json
