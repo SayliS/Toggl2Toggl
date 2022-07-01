@@ -26,6 +26,7 @@ namespace Toggl2Toggl
 
             var app = serviceProvider.GetRequiredService<Application>();
             app.Run();
+            Console.ReadKey();
         }
     }
 
@@ -88,7 +89,7 @@ namespace Toggl2Toggl
             if (Since.HasValue)
                 return Since.Value;
 
-            return DateTime.UtcNow.StartOfWeek(DayOfWeek.Monday).AddDays(-7);
+            return DateTime.UtcNow.StartOfWeek(DayOfWeek.Monday);
         }
 
         public class AdoOptions
